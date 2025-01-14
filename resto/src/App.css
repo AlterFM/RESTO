@@ -1,0 +1,28 @@
+body {
+  font-family: Arial, sans-serif;
+}
+
+header {
+  text-align: center;
+  color: red;
+}
+
+.menu {
+  margin: 20px;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 10px;
+}
+
+th, td {
+  border: 1px solid black;
+  text-align: center;
+  padding: 5px;
+}
+
+.form {
+  margin: 20px;
+}
