@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import axios from "axios";
 
 const Form = () => {
-  const [orders, setOrders] = useState([]);
   const [form, setForm] = useState({ nama: "", jumlah: "", harga: "" });
 
   const handleChange = (e) => {
@@ -10,14 +9,18 @@ const Form = () => {
   };
 
   const handleAddOrder = () => {
+    if (!form.nama || !form.jumlah || !form.harga) {
+      alert("Semua field harus diisi!");
+      return;
+    }
+
     axios
-      .post("http://localhost:5000/api/order", form)
-      .then((res) => {
-        setOrders([...orders, form]);
+      .post("http://localhost/addOrder.php", form)
+      .then((response) => {
+        alert(response.data.message);
         setForm({ nama: "", jumlah: "", harga: "" });
-        alert(res.data.message);
       })
-      .catch((err) => console.error(err));
+      .catch((error) => console.error("Error adding order:", error));
   };
 
   return (

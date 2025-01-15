@@ -1,35 +1,27 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import Menu from "./components/Menu";
 import Form from "./components/Form";
 import './App.css';
 
-
 const App = () => {
-  const makanan = [
-    { nama: "Nasi Goreng Spesial", harga: 25000 },
-    { nama: "Ayam Geprek Sambal", harga: 20000 },
-    { nama: "Mie Goreng Pedas", harga: 18000 },
-    { nama: "Soto Ayam", harga: 22000 },
-    { nama: "Sate Ayam (10 tusuk)", harga: 30000 },
-  ];
+  const [menuData, setMenuData] = useState({ makanan: [], minuman: [] });
 
-  const minuman = [
-    { nama: "Es Teh Manis", harga: 8000 },
-    { nama: "Kopi Susu", harga: 12000 },
-    { nama: "Jus Alpukat", harga: 15000 },
-    { nama: "Lemon Tea", harga: 10000 },
-    { nama: "Air Mineral", harga: 5000 },
-  ];
+  // Ambil data dari API
+  useEffect(() => {
+    fetch("http://localhost/Pemweb/Resto/resto/api/getMenu.php")
+      .then((response) => response.json())
+      .then((data) => setMenuData(data.data))
+      .catch((err) => console.error("Error fetching data: ", err));
+  }, []);
 
   return (
     <div className="app">
       <header>
         <h1>Resto Cepat Santap</h1>
-        <p>Alamat: Alamat Alamat</p>
+        <p>Alamat: Kelapa Dua Wetan Corner</p>
       </header>
       <div className="menus">
-        <Menu data={makanan} title="Daftar Menu Makanan" />
-        <Menu data={minuman} title="Daftar Menu Minuman" />
+        <Menu data={menuData.makanan} title="Daftar Menu" />
       </div>
       <Form />
     </div>
