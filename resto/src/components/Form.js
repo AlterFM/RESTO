@@ -10,12 +10,9 @@ const Form = ({ menuData }) => {
     total: 0,
   });
   const [orders, setOrders] = useState([]);
-  const [editingIndex, setEditingIndex] = useState(null); // Menyimpan indeks pesanan yang sedang diedit
+  const [editingIndex, setEditingIndex] = useState(null);
 
-  // Menghitung total berdasarkan kuantitas dan harga
-  const calculateTotal = (kuantitas, harga) => {
-    return kuantitas * harga;
-  };
+  const calculateTotal = (kuantitas, harga) => kuantitas * harga;
 
   const handleQuantityChange = (e) => {
     const kuantitas = Math.max(1, e.target.value);
@@ -27,19 +24,14 @@ const Form = ({ menuData }) => {
   };
 
   const handleMenuSelect = (e) => {
-    const selectedItemId = e.target.value; // Mendapatkan ID item yang dipilih
-    console.log("Selected Item ID:", selectedItemId); // Log ID yang dipilih
-
-    const [type, id] = selectedItemId.split('-'); // Memisahkan tipe dan id
-
-    // Mencari item berdasarkan tipe dan ID
+    const selectedItemId = e.target.value; // Format: "type-id"
+    const [type, id] = selectedItemId.split("-"); // Memisahkan tipe dan ID
+  
     const selectedMenuItem =
-      type === 'makanan'
-        ? menuData.makanan.find(item => item.id_makanan === id)
-        : menuData.minuman.find(item => item.id_minuman === id);
-
-    console.log("Selected Menu Item:", selectedMenuItem); // Log item yang ditemukan
-
+      type === "makanan"
+        ? menuData.makanan.find((item) => item.kode_makanan === id)
+        : menuData.minuman.find((item) => item.kode_minuman === id);
+  
     if (selectedMenuItem) {
       setForm({
         pesanan: selectedMenuItem.nama_makanan || selectedMenuItem.nama_minuman,
@@ -48,8 +40,7 @@ const Form = ({ menuData }) => {
         total: calculateTotal(1, selectedMenuItem.harga_makanan || selectedMenuItem.harga_minuman),
       });
     }
-};
-
+  };
 
   const handleAddOrUpdateOrder = () => {
     if (!namaPembeli || !form.pesanan || form.kuantitas <= 0 || form.total <= 0) {
@@ -57,16 +48,16 @@ const Form = ({ menuData }) => {
       return;
     }
 
+    const orderToAdd = { ...form, nama: namaPembeli };
+
     if (editingIndex !== null) {
-      // Update existing order
       const updatedOrders = orders.map((order, index) =>
-        index === editingIndex ? { ...form, nama: namaPembeli } : order
+        index === editingIndex ? orderToAdd : order
       );
       setOrders(updatedOrders);
-      setEditingIndex(null); // Reset editing index
+      setEditingIndex(null);
     } else {
-      // Add new order
-      setOrders([...orders, { ...form, nama: namaPembeli }]);
+      setOrders([...orders, orderToAdd]);
     }
 
     resetForm();
@@ -84,14 +75,13 @@ const Form = ({ menuData }) => {
   const handleEditOrder = (index) => {
     const orderToEdit = orders[index];
     setForm(orderToEdit);
-    setEditingIndex(index); // Set index untuk mode edit
+    setEditingIndex(index);
   };
 
   const handleRemoveOrder = (index) => {
     const newOrders = orders.filter((_, i) => i !== index);
     setOrders(newOrders);
 
-    // Reset form jika menghapus pesanan yang sedang diedit
     if (editingIndex === index) {
       resetForm();
       setEditingIndex(null);
@@ -103,20 +93,33 @@ const Form = ({ menuData }) => {
       alert("Tidak ada pesanan untuk dikirim.");
       return;
     }
-
+  
+    // Pastikan setiap order memiliki total
+    const orderData = orders.map(order => ({
+      pesanan: order.pesanan,
+      kuantitas: order.kuantitas,
+      harga: order.harga,
+      total: order.total, // Pastikan total ada di sini
+      nama: namaPembeli // Tambahkan nama pembeli ke setiap order
+    }));
+  
     axios
-      .post("http://localhost/Pemweb/Resto/resto/api/addOrder.php", { orders })
+      .post("http://localhost/Pemweb/Resto/resto/api/addOrder.php", { orders: orderData })
       .then((response) => {
+        console.log(response.data); // Log respons dari server
         alert(response.data.message);
         if (response.data.success) {
-          // Reset daftar pesanan dan nama pembeli setelah berhasil dikirim
           setOrders([]);
           setNamaPembeli("");
           resetForm();
         }
       })
-      .catch((error) => console.error("Error submitting orders:", error));
+      .catch((error) => {
+        console.error("Error submitting orders:", error);
+        alert("Terjadi kesalahan saat mengirim pesanan.");
+      });
   };
+  
 
   const totalKeseluruhan = orders.reduce((acc, order) => acc + order.total, 0);
 
@@ -135,17 +138,19 @@ const Form = ({ menuData }) => {
       </div>
       
       <div>
-      <select name="pesanan" value={form.pesanan} onChange={handleMenuSelect}>
-        <option value="">Pilih Pesanan</option>
-        {[...menuData.makanan, ...menuData.minuman].map((item) => (
-          <option 
-            key={item.id_makanan ? `makanan-${item.id_makanan}` : `minuman-${item.id_minuman}`} 
-            value={item.id_makanan ? `makanan-${item.id_makanan}` : `minuman-${item.id_minuman}`}>
-            {item.nama_makanan || item.nama_minuman}
-          </option>
-        ))}
-      </select>
-
+        <select name="pesanan" value={form.pesanan} onChange={handleMenuSelect}>
+          <option value="">Pilih Pesanan</option>
+          {menuData.makanan.map((item) => (
+            <option key={`makanan-${item.kode_makanan}`} value={`makanan-${item.kode_makanan}`}>
+              {item.nama_makanan}
+            </option>
+          ))}
+          {menuData.minuman.map((item) => (
+            <option key={`minuman-${item.kode_minuman}`} value={`minuman-${item.kode_minuman}`}>
+              {item.nama_minuman}
+            </option>
+          ))}
+        </select>
 
         <input
           type="number"
@@ -180,7 +185,7 @@ const Form = ({ menuData }) => {
               <th>Kuantitas</th>
               <th>Harga per Item</th>
               <th>Total Harga</th>
-              <th>Aksi</th> {/* Tambahkan kolom aksi */}
+              <th>Aksi</th>
             </tr>
           </thead>
           <tbody>
@@ -191,9 +196,7 @@ const Form = ({ menuData }) => {
                 <td>{order.harga}</td>
                 <td>{order.total}</td>
                 <td>
-                  {/* Tombol Edit */}
                   <button onClick={() => handleEditOrder(index)}>Edit</button>
-                  {/* Tombol Hapus */}
                   <button onClick={() => handleRemoveOrder(index)}>Hapus</button>
                 </td>
               </tr>
@@ -205,6 +208,7 @@ const Form = ({ menuData }) => {
       <h3>Total Keseluruhan: {totalKeseluruhan}</h3>
 
       <button onClick={handleSubmitOrders}>Kirim Pesanan</button>
+
     </div>
   );
 };

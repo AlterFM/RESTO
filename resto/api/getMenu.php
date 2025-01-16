@@ -11,8 +11,8 @@ if ($conn->connect_error) {
 }
 
 // Query untuk mengambil data makanan dan minuman
-$queryMakanan = "SELECT id_makanan, nama_makanan, harga_makanan FROM makanan";
-$queryMinuman = "SELECT id_minuman, nama_minuman, harga_minuman FROM minuman";
+$queryMakanan = "SELECT id_makanan, nama_makanan, harga_makanan, CONCAT('M', id_makanan) AS kode_makanan FROM makanan";
+$queryMinuman = "SELECT id_minuman, nama_minuman, harga_minuman, CONCAT('B', id_minuman) AS kode_minuman FROM minuman";
 
 $resultMakanan = $conn->query($queryMakanan);
 $resultMinuman = $conn->query($queryMinuman);

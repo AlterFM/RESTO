@@ -39,7 +39,7 @@ const App = () => {
       {/* Mengoper menuData ke Form sebagai props */}
       <Form menuData={menuData} />
       {/* Menampilkan daftar pesanan */}
-      <OrderList />
+      {/* <OrderList /> */}
     </div>
   );
 };
