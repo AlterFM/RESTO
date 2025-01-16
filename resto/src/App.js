@@ -21,9 +21,11 @@ const App = () => {
         <p>Alamat: Kelapa Dua Wetan Corner</p>
       </header>
       <div className="menus">
-        <Menu data={menuData.makanan} title="Daftar Menu" />
+        <Menu data={menuData.makanan} title="Daftar Menu Makanan" />
+        <Menu data={menuData.minuman} title="Daftar Menu Minuman" />
       </div>
-      <Form />
+      {/* Mengoper menuData ke Form sebagai props */}
+      <Form menuData={menuData} />
     </div>
   );
 };
