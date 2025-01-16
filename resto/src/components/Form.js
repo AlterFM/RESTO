@@ -127,7 +127,7 @@ const Form = ({ menuData }) => {
     <div className="form">
       <h2>Form Pemesanan</h2>
       
-      <div>
+      <div class="form_pesanan">
         <input
           type="text"
           name="namaPembeli"
@@ -135,10 +135,7 @@ const Form = ({ menuData }) => {
           value={namaPembeli}
           onChange={(e) => setNamaPembeli(e.target.value)}
         />
-      </div>
-      
-      <div>
-        <select name="pesanan" value={form.pesanan} onChange={handleMenuSelect}>
+        <select class="pilihmenu"name="pesanan" value={form.pesanan} onChange={handleMenuSelect}>
           <option value="">Pilih Pesanan</option>
           {menuData.makanan.map((item) => (
             <option key={`makanan-${item.kode_makanan}`} value={`makanan-${item.kode_makanan}`}>
@@ -173,42 +170,43 @@ const Form = ({ menuData }) => {
           {editingIndex !== null ? "Update Pesanan" : "Tambah Pesanan"}
         </button>
       </div>
-
-      <h3>Daftar Pesanan</h3>
-      {namaPembeli && <p>Nama Pembeli: {namaPembeli}</p>}
       
-      {orders.length > 0 && (
-        <table>
-          <thead>
-            <tr>
-              <th>Pesanan</th>
-              <th>Kuantitas</th>
-              <th>Harga per Item</th>
-              <th>Total Harga</th>
-              <th>Aksi</th>
-            </tr>
-          </thead>
-          <tbody>
-            {orders.map((order, index) => (
-              <tr key={index}>
-                <td>{order.pesanan}</td>
-                <td>{order.kuantitas}</td>
-                <td>{order.harga}</td>
-                <td>{order.total}</td>
-                <td>
-                  <button onClick={() => handleEditOrder(index)}>Edit</button>
-                  <button onClick={() => handleRemoveOrder(index)}>Hapus</button>
-                </td>
+      <div class="daftar_pesanan">
+        <h3>Daftar Pesanan</h3>
+        {namaPembeli && <p>Nama Pembeli: {namaPembeli}</p>}
+        
+        {orders.length > 0 && (
+          <table>
+            <thead>
+              <tr>
+                <th>Pesanan</th>
+                <th>Kuantitas</th>
+                <th>Harga per Item</th>
+                <th>Total Harga</th>
+                <th>Aksi</th>
               </tr>
-            ))}
-          </tbody>
-        </table>
-      )}
+            </thead>
+            <tbody>
+              {orders.map((order, index) => (
+                <tr key={index}>
+                  <td>{order.pesanan}</td>
+                  <td>{order.kuantitas}</td>
+                  <td>{order.harga}</td>
+                  <td>{order.total}</td>
+                  <td>
+                    <button onClick={() => handleEditOrder(index)}>Edit</button>
+                    <button onClick={() => handleRemoveOrder(index)}>Hapus</button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        )}
 
-      <h3>Total Keseluruhan: {totalKeseluruhan}</h3>
+        <h3>Total Keseluruhan: {totalKeseluruhan}</h3>
 
-      <button onClick={handleSubmitOrders}>Kirim Pesanan</button>
-
+        <button onClick={handleSubmitOrders}>Kirim Pesanan</button>
+      </div>
     </div>
   );
 };

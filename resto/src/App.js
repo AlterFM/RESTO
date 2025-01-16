@@ -29,8 +29,8 @@ const App = () => {
   return (
     <div className="app">
       <header>
-        <h1>Resto Cepat Santap</h1>
-        <p>Alamat: Kelapa Dua Wetan Corner</p>
+        <h1>RUMAH MAKAN KELAPA DUA</h1>
+        <p>Jalan Akses UI, Kelapa Dua, Tugu, Kec. Cimanggis, Kota Depok, Jawa Barat 16451</p>
       </header>
       <div className="menus">
         <Menu data={menuData.makanan} title="Daftar Menu Makanan" />

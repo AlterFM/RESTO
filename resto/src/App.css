@@ -7,6 +7,12 @@ body {
   line-height: 1.6;
 }
 
+.app h1 {
+  text-align: center;
+  color: #ffffff;
+  margin-top: 1.25rem;
+  font-size: 25px;
+}
 header {
   text-align: center;
   color: #fff;
@@ -82,9 +88,41 @@ tr:nth-child(even) {
 }
 
 .form {
+  justify-content: center;
   margin: 1.25rem;
   padding: 1.25rem;
   background-color: #fff;
+  border-radius: 0.5rem;
+  box-shadow: 0 0.25rem 0.5rem rgba(0, 0, 0, 0.1);
+}
+
+input {
+  gap: 20px;
+  justify-content: center;
+  width: 20%;
+  padding: 0.75rem;
+  margin: 0.25rem 0;
+  border: 0.0625rem solid #ccc;
+  border-radius: 0.25rem;
+  box-sizing: border-box;
+}
+
+.pilihmenu {
+  width: 20%;
+  padding: 0.75rem;
+  margin: 0.25rem 0;
+  border: 0.0625rem solid #ccc;
+  border-radius: 0.25rem;
+  box-sizing: border-box;
+}
+
+.form_pesanan {
+  gap: 20px;
+  text-align: center;
+  justify-content: center;
+  margin: 1.25rem;
+  padding: 1.25rem;
+  background-color: #AEEA94;
   border-radius: 0.5rem;
   box-shadow: 0 0.25rem 0.5rem rgba(0, 0, 0, 0.1);
 }
