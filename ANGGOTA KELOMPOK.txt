@@ -1,0 +1,9 @@
+Kelas 3IA13
+
+
+No	Nama Anggota Tim	 	Tugas yang Dilakukan
+1	Ramadhya Putra Bagastiko	Membuat directory React dan bagian frontend untuk aplikasi pemesanan makanan.
+2	Yogawindy Fajar M		Mengembangkan file addOrder.php, getOrder.php, getMenu.php, dan bagian backend.
+3	Muhammad Rafli			Membuat manual book, struktur rangkaian, dan mengelola database untuk aplikasi.
+
+Link Github				https://github.com/AlterFM/RESTO
