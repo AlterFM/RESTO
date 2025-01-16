@@ -1,17 +1,29 @@
-import React, { useState, useEffect } from "react";
-import Menu from "./components/Menu";
-import Form from "./components/Form";
+import React, { useState, useEffect } from 'react';
+import Menu from './components/Menu';
+import Form from './components/Form';
+import OrderList from './components/orderlist'; // Import OrderList component
 import './App.css';
 
 const App = () => {
   const [menuData, setMenuData] = useState({ makanan: [], minuman: [] });
-
-  // Ambil data dari API
+  
+  // Ambil data dari API menu dan orders secara bersamaan menggunakan Promise.all()
   useEffect(() => {
-    fetch("http://localhost/Pemweb/Resto/resto/api/getMenu.php")
-      .then((response) => response.json())
-      .then((data) => setMenuData(data.data))
-      .catch((err) => console.error("Error fetching data: ", err));
+    const fetchData = async () => {
+      try {
+        const menuResponse = await fetch("http://localhost/Pemweb/Resto/resto/api/getMenu.php");
+        const menuData = await menuResponse.json();
+
+        if (menuData.success) {
+          setMenuData(menuData.data);
+        }
+
+      } catch (err) {
+        console.error("Error fetching menu data:", err);
+      }
+    };
+
+    fetchData();
   }, []);
 
   return (
@@ -26,6 +38,8 @@ const App = () => {
       </div>
       {/* Mengoper menuData ke Form sebagai props */}
       <Form menuData={menuData} />
+      {/* Menampilkan daftar pesanan */}
+      <OrderList />
     </div>
   );
 };

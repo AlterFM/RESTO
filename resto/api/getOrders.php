@@ -18,7 +18,7 @@ if (!$result) {
     die(json_encode(["success" => false, "message" => "Query failed: " . $conn->error]));
 }
 
-// Ambil data pesanan
+// Ambil data pesanan dalam array
 $orders = [];
 while ($row = $result->fetch_assoc()) {
     $orders[] = $row;
@@ -27,7 +27,7 @@ while ($row = $result->fetch_assoc()) {
 // Kirimkan data dalam format JSON
 echo json_encode([
     "success" => true,
-    "orders" => $orders
+    "orders" => $orders,
 ]);
 
 // Tutup koneksi
