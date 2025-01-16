@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Menu from './components/Menu';
 import Form from './components/Form';
-import OrderList from './components/orderlist'; // Import OrderList component
+// import OrderList from './components/orderlist'; // Import OrderList component
 import './App.css';
 
 const App = () => {
