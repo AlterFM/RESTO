@@ -27,13 +27,13 @@ const Menu = ({ data, title }) => {
             title.includes("Makanan") ? (
               <tr key={item.id_makanan}>
                 <td>{index + 1}</td>
-                <td>{item.nama_makanan}</td>
+                <td class="isi_menu">{item.nama_makanan}</td>
                 <td>Rp{item.harga_makanan}</td>
               </tr>
             ) : (
               <tr key={item.id_minuman}>
                 <td>{index + 1}</td>
-                <td>{item.nama_minuman}</td>
+                <td class="isi_menu">{item.nama_minuman}</td>
                 <td>Rp{item.harga_minuman}</td>
               </tr>
             )
